@@ -7,18 +7,20 @@ export default function Login(){
     const navigate = useNavigate();
 const handleSubmit=async(e)=>{
     e.preventDefault();
-    try{
+    try
+    {
     const res=await API.post('/auth/login', form);
     console.log(res)
+    localStorage.setItem("user", JSON.stringify(res.data.user));
     localStorage.setItem('token',res.data.token);
+    console.log(localStorage)
     alert('Login success!');
-     navigate('/profile');
+    navigate('/profile');
     }
-    catch(err){
-        alert("not sucess")
+    catch(err)
+    {
+        alert("not success")
     }
-
-
 }
 const handleChange=(e)=>{
     setForm({...form,[e.target.name]: e.target.value})
@@ -28,7 +30,6 @@ const handleChange=(e)=>{
     <input name="email" onChange={handleChange}/>
     <input name="password" onChange={handleChange}/>
     <button type="submit">LOGIN</button>
-
 </form>
     )
 }
