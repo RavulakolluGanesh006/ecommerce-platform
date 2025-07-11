@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import API from "../api";
 
 export default function EditProduct() {
-  const { id } = useParams(); // Get product ID from URL
+  const { id } = useParams();
   const navigate = useNavigate();
   const [form, setForm] = useState({
     title: "",
@@ -12,23 +12,20 @@ export default function EditProduct() {
     image: ""
   });
 
-  // Fetch the product by ID when page loads
   useEffect(() => {
-    API.get("/products") // Get all products
+    API.get(`/products/${id}`)
       .then((res) => {
-        const product = res.data.find((p) => p._id === id);
-        if (product) {
-          setForm({
-            title: product.title,
-            description: product.description,
-            price: product.price,
-            image: product.image
-          });
-        } else {
-          alert("Product not found");
-        }
+        setForm({
+          title: res.data.title,
+          description: res.data.description,
+          price: res.data.price,
+          image: res.data.image
+        });
       })
-      .catch((err) => console.error(err));
+      .catch((err) => {
+        console.error(err);
+        alert("Error loading product");
+      });
   }, [id]);
 
   const handleChange = (e) => {
@@ -38,12 +35,12 @@ export default function EditProduct() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await API.put(`/products/${id}`, form); // Call PUT API
-      alert("Product updated");
-      navigate("/admin"); // Redirect back to admin dashboard
+      await API.put(`/products/${id}`, form);
+      alert("✅ Product updated successfully!");
+      navigate("/admin"); // Back to dashboard
     } catch (err) {
       console.error(err);
-      alert("Error updating product");
+      alert("❌ Error updating product");
     }
   };
 
