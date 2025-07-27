@@ -34,66 +34,56 @@ export default function Profile() {
 };
 
   return (
-    <div className="container">
-      {/* <h2>Welcome, {user.name}</h2>
-      <p>Email: {user.email}</p> */}
+<div className="container">
+  {/* <h2>Welcome, {user.name}</h2>
+  <p>Email: {user.email}</p> */}
 
-      <h3>All Products:</h3>
+  <h3>All Products:</h3>
 
-{user.isAdmin != true && (
-  <Link to="/cart">🛒 View Cart</Link>
-)}
-     <ul className="product-grid">
-  {products.map((product) => (
-    <li key={product._id}>
-      <div className="card">
-        <img src={product.image} alt={product.title} className="card-img-top" />
-        <div className="card-body">
-          <h5 className="card-title">{product.title}</h5>
-          <div className="card-price">₹{product.price}</div>
-          <p className="card-text">{product.description}</p>
-          {/* <a href="#" className="btn-primary">Shop Now</a> */}
-          <button className="btn-primary" onClick={() => handleAddToCart(product._id)}>🛒 Add to Cart</button>
-          {user.isAdmin && (
-            <div className="actions">
-              <Link to={`/edit-product/${product._id}`}>✏️ Edit</Link>
-              <button onClick={() => handleDelete(product._id)}>🗑️ Delete</button>
-            </div>
-          )}
+  {user.isAdmin !== true && (
+    <Link to="/cart">🛒 View Cart</Link>
+  )}
+  <ul className="product-grid">
+    {products.map((product) => (
+      <li key={product._id}>
+        <div className="card">
+          <img src={product.image} alt={product.title} className="card-img-top" />
+          <div className="card-body">
+            <h5 className="card-title">{product.title}</h5>
+            <div className="card-price">₹{product.price}</div>
+            <p className="card-text">{product.description}</p>
+            {/* <a href="#" className="btn-primary">Shop Now</a> */}
+            <button className="btn-primary" onClick={() => handleAddToCart(product._id)}>🛒 Add to Cart</button>
+            {user.isAdmin && (
+              <div className="actions">
+                <Link to={`/edit-product/${product._id}`}>✏️ Edit</Link>
+                <button onClick={() => handleDelete(product._id)}>🗑️ Delete</button>
+              </div>
+            )}
+          </div>
         </div>
-      </div>
-    </li>
-  ))}
-</ul>
+      </li>
+    ))}
+  </ul>
 
-{user.isAdmin && (
-  <Link to="/add-product" className="add-product">➕ Add New Product</Link>
-)}
-
-<button
-  className="logout-btn"
-  onClick={() => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("user");
-    window.location.href = "/login";
-  }}
->
-  Logout
-</button>
-
-      
-     
-
-   {/* <button
-  className="logout-btn"
-  onClick={() => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("user");
-    window.location.href = "/login";
-  }}
->
-  Logout
-</button> */}
+  {user.isAdmin && (
+    <div>
+      {/* Admin specific links */}
+      <Link to="/add-product" className="add-product">➕ Add New Product</Link>
+      <Link to="/admin-orders">📋 View Orders</Link>
     </div>
+  )}
+
+  <button
+    className="logout-btn"
+    onClick={() => {
+      localStorage.removeItem("token");
+      localStorage.removeItem("user");
+      window.location.href = "/login";
+    }}
+  >
+    Logout
+  </button>
+</div>
   );
 }

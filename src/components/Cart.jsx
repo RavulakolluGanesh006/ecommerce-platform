@@ -1,9 +1,29 @@
+
 import React, { useEffect, useState } from "react";
 import API from "../api";
 import { useNavigate } from "react-router-dom";
-
+//import QRCode from "../assets/upi.jpg"; // Make sure this image exists
+import OrderEmailSender from "../admin/EmailOrderDetails";
 export default function Cart() {
+  const [showForm, setShowForm] = useState(false);
+  const [form, setForm] = useState({
+    country: "",
+    fullName: "",
+    mobileNo: "",
+    location: "",
+    houseNo: "",
+    area: "",
+    landmark: "",
+    pincode: "",
+    state: "",
+    city: ""
+  });
+
   const [cartItems, setCartItems] = useState([]);
+  const [total, setTotal] = useState(0);
+  const [orderDetails, setOrderDetails] = useState(null);
+const [orderPlaced, setOrderPlaced] = useState(false);
+const [isPlacingOrder, setIsPlacingOrder] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -18,11 +38,18 @@ export default function Cart() {
       return;
     }
 
-   API.get("/cart", {
-  headers: { Authorization: `Bearer ${token}` }
-})
-      .then((res) => setCartItems(res.data?.products || []))
+    API.get("/cart")
+      .then((res) => {
+        const items = res.data?.products || [];
+        setCartItems(items);
+        const total = items.reduce((sum, item) => sum + item.productId.price * item.quantity, 0);
+        setTotal(total);
+      })
       .catch((err) => console.error(err));
+  };
+
+  const handleChange = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
   };
 
   const handleRemove = async (productId) => {
@@ -34,21 +61,59 @@ export default function Cart() {
     }
   };
 
-  const handleUpdateQuantity = async (productId, change) => {
-    const updatedItems = cartItems.map((item) => {
+  const handleUpdateQuantity = (productId, change) => {
+    const updated = cartItems.map((item) => {
       if (item.productId._id === productId) {
         const newQty = item.quantity + change;
         if (newQty >= 1) item.quantity = newQty;
       }
       return item;
     });
-    setCartItems([...updatedItems]);
-    // Optional: Save to backend if you add quantity update API
+    setCartItems([...updated]);
   };
 
-  const totalPrice = cartItems.reduce((sum, item) => {
-    return sum + item.productId.price * item.quantity;
-  }, 0);
+  const handlePlaceOrder = async () => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      alert("Please login first");
+      navigate("/login");
+      return;
+    }
+
+    if (cartItems.length === 0) {
+      alert("Cart is empty");
+      return;
+    }
+  for (const key in form) {
+    if (!form[key]) {
+      alert(`Please fill in your ${key}`);
+      return;
+    }
+  }
+    const order = {
+      address: form,
+      products: cartItems.map((item) => ({
+        productId: item.productId._id,
+        quantity: item.quantity
+      })),
+      amount: total,
+      paymentId: "manual-upi-" + Date.now()
+    };
+
+  try {
+    setIsPlacingOrder(true);
+    await API.post("/orders", order);
+    setOrderDetails(order);
+    setOrderPlaced(true);
+    alert("✅ Order placed successfully! Email will be sent to admin.");
+    window.location.href = "/profile";
+  } catch (err) {
+    console.error(err);
+    alert("❌ Failed to place order");
+  } finally {
+    setIsPlacingOrder(false);
+  }
+};
 
   return (
     <div style={{ padding: "20px" }}>
@@ -59,7 +124,7 @@ export default function Cart() {
         <ul>
           {cartItems.map((item) => (
             <li key={item.productId._id}>
-              <strong>{item.productId.title}</strong> - ₹{item.productId.price} x {item.quantity}
+              <strong>{item.productId.title}</strong> - ₹{item.productId.price} × {item.quantity}
               <button onClick={() => handleUpdateQuantity(item.productId._id, -1)}>-</button>
               <button onClick={() => handleUpdateQuantity(item.productId._id, 1)}>+</button>
               <button onClick={() => handleRemove(item.productId._id)}>❌ Remove</button>
@@ -67,7 +132,53 @@ export default function Cart() {
           ))}
         </ul>
       )}
-      <h3>Total: ₹{totalPrice}</h3>
-    </div>
+      <h3>Total: ₹{total}</h3>
+      {cartItems.length > 0 && (
+        <button onClick={() => setShowForm(true)}>Buy Now</button>
+      )}
+
+      {showForm && (
+        <div style={{ marginTop: "2rem", padding: "1rem", border: "1px solid #ccc" }}>
+          <h3>Shipping Address</h3>
+          {[
+            "country",
+            "fullName",
+            "mobileNo",
+            "location",
+            "houseNo",
+            "area",
+            "landmark",
+            "pincode",
+            "state",
+            "city"
+          ].map((field) => (
+            <input
+              key={field}
+              name={field}
+              placeholder={field}
+              value={form[field]}
+              onChange={handleChange}
+              required
+              style={{ display: "block", margin: "5px 0", width: "100%" }}
+            />
+          ))}
+
+        <button
+  onClick={handlePlaceOrder}
+  style={{ marginTop: "10px" }}
+  disabled={isPlacingOrder}
+>
+  {isPlacingOrder ? "Processing..." : "✅ I've Paid – Place Order"}
+</button>
+
+
+        </div>
+
+      )}
+        {orderPlaced && orderDetails && (
+          <OrderEmailSender orderDetails={orderDetails} />
+        )}
+      </div>
+
   );
 }
