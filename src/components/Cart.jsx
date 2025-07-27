@@ -137,42 +137,40 @@ const [isPlacingOrder, setIsPlacingOrder] = useState(false);
         <button onClick={() => setShowForm(true)}>Buy Now</button>
       )}
 
-      {showForm && (
-        <div style={{ marginTop: "2rem", padding: "1rem", border: "1px solid #ccc" }}>
-          <h3>Shipping Address</h3>
-          {[
-            "country",
-            "fullName",
-            "mobileNo",
-            "location",
-            "houseNo",
-            "area",
-            "landmark",
-            "pincode",
-            "state",
-            "city"
-          ].map((field) => (
-            <input
-              key={field}
-              name={field}
-              placeholder={field}
-              value={form[field]}
-              onChange={handleChange}
-              required
-              style={{ display: "block", margin: "5px 0", width: "100%" }}
-            />
-          ))}
+<div className="address-form">
+  <h3>Shipping Address</h3>
+  {[
+    "country",
+    "fullName",
+    "mobileNo",
+    "location",
+    "houseNo",
+    "area",
+    "landmark",
+    "pincode",
+    "state",
+    "city"
+  ].map((field) => (
+    <input
+      key={field}
+      name={field}
+      placeholder={field}
+      value={form[field]}
+      onChange={handleChange}
+      required
+    />
+  ))}
 
-        <button
-  onClick={handlePlaceOrder}
-  style={{ marginTop: "10px" }}
-  disabled={isPlacingOrder}
->
-  {isPlacingOrder ? "Processing..." : "✅ I've Paid – Place Order"}
-</button>
-        </div>
+  <button
+    className="place-order-btn"
+    onClick={handlePlaceOrder}
+    disabled={isPlacingOrder}
+  >
+    {isPlacingOrder ? "Processing..." : "✅ I've Paid – Place Order"}
+  </button>
+</div>
 
-      )}
+
         {orderPlaced && orderDetails && (
           <OrderEmailSender orderDetails={orderDetails} />
         )}
