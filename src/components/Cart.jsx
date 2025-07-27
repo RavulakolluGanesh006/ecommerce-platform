@@ -170,8 +170,6 @@ const [isPlacingOrder, setIsPlacingOrder] = useState(false);
 >
   {isPlacingOrder ? "Processing..." : "✅ I've Paid – Place Order"}
 </button>
-
-
         </div>
 
       )}
