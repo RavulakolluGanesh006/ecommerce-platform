@@ -1,137 +1,257 @@
-/* Profile.css */
-
+/* Container */
 .container {
   max-width: 1200px;
-  margin: 50px auto;
-  padding: 2rem;
-  font-family: Arial, sans-serif;
+  margin: auto;
+  padding: 20px;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 
-h2, h3 {
-  text-align: left;
-  color: #111;
-  margin-bottom: 1rem;
-}
-
-p {
+/* Heading */
+.container h3 {
+  font-size: 1.8rem;
+  margin-bottom: 20px;
+  font-weight: bold;
+  text-align: center;
   color: #333;
 }
 
-.product-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 1.5rem;
+/* Banner image */
+.container img.banner {
+  width: 100%;
+  max-height: 220px;
+  object-fit: contain;
+  margin-bottom: 20px;
 }
 
+/* Product grid */
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 20px;
+  padding: 0;
+  list-style: none;
+}
+
+/* Product card */
 .card {
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  overflow: hidden;
   background: #fff;
-  transition: box-shadow 0.2s ease;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.08);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .card:hover {
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  transform: translateY(-4px);
+  box-shadow: 0px 4px 16px rgba(0, 0, 0, 0.12);
+}
+
+/* Product image */
+.card-img-top {
+  width: 100%;
+  height: 260px; /* Increased height for better clarity */
+  object-fit: contain; /* Ensures full image is visible without cropping */
+  background-color: #f9f9f9; /* Light background to highlight transparent images */
+  padding: 10px; /* Space around the image */
+  transition: transform 0.3s ease-in-out;
+}
+
+.card:hover .card-img-top {
+  transform: scale(1.05); /* Slight zoom on hover */
+}
+/* Card body */
+.card-body {
+  padding: 15px;
+}
+
+.card-title {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: #222;
+}
+
+.card-price {
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: #28a745;
+  margin-bottom: 10px;
+}
+
+.card-text {
+  font-size: 0.9rem;
+  color: #666;
+  height: 45px;
+  overflow: hidden;
+}
+
+/* Buttons */
+.btn-primary {
+  display: inline-block;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.btn-primary:hover {
+  background-color: #218838;
+}
+
+.actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.actions a,
+.actions button {
+  background-color: #ffc107;
+  color: #222;
+  padding: 6px 12px;
+  border: none;
+  border-radius: 5px;
+  font-size: 0.85rem;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.actions a:hover,
+.actions button:hover {
+  background-color: #e0a800;
+}
+
+/* Admin links */
+.add-product {
+  display: inline-block;
+  background-color: #007bff;
+  color: white;
+  padding: 8px 14px;
+  margin-right: 10px;
+  border-radius: 6px;
+  text-decoration: none;
+}
+
+.add-product:hover {
+  background-color: #0069d9;
+}
+
+/* Logout button */
+.logout-btn {
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-top: 20px;
+}
+
+.logout-btn:hover {
+  background-color: #c82333;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .product-grid {
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  }
+}
+
+
+
+
+/* ✅ Navbar */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 40px;
+  background-color: white;
+  border-bottom: 1px solid #eee;
+}
+
+.logo {
+  height: 40px;
+}
+
+.nav-link {
+  text-decoration: none;
+  font-weight: 500;
+  color: #222;
+  transition: color 0.2s ease;
+}
+
+.nav-link:hover {
+  color: #007bff;
+}
+
+.cart-icon {
+  font-size: 22px;
+  color: #444;
+  transition: color 0.2s ease;
+}
+
+.cart-icon:hover {
+  color: #007bff;
+}
+
+/* ✅ Product Grid */
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 15px;
+  margin-top: 20px;
+  padding: 0;
+  list-style: none;
+}
+
+.card {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
 }
 
 .card-img-top {
   width: 100%;
   height: 200px;
-  object-fit: contain;
+  object-fit: contain; /* Makes product image clear without cutting */
   background: #f9f9f9;
 }
 
 .card-body {
-  padding: 1rem;
+  padding: 12px;
 }
 
 .card-title {
-  font-size: 1rem;
-  font-weight: 600;
-  color: #111;
-  margin: 0.5rem 0;
+  font-size: 1.1rem;
+  margin-bottom: 5px;
 }
 
 .card-price {
-  color: #B12704;
-  font-size: 1.1rem;
+  color: green;
   font-weight: bold;
-  margin: 0.5rem 0;
-}
-
-.card-text {
-  font-size: 0.9rem;
-  color: #555;
-  margin-bottom: 0.5rem;
+  margin-bottom: 8px;
 }
 
 .btn-primary {
-  display: inline-block;
-  margin-top: 0.5rem;
+  background: #007bff;
+  color: white;
+  border: none;
   padding: 8px 12px;
-  background: #FFD814;
-  color: #111;
-  font-weight: 600;
-  border: 1px solid #FCD200;
   border-radius: 4px;
-  text-decoration: none;
   cursor: pointer;
 }
 
 .btn-primary:hover {
-  background: #F7CA00;
+  background: #0056b3;
 }
 
-.actions {
-  margin-top: 0.5rem;
-}
-
-.actions a {
-  margin-right: 8px;
-  color: #007185;
-  text-decoration: none;
-  font-size: 0.9rem;
-}
-
-.actions a:hover {
-  text-decoration: underline;
-}
-
-.actions button {
-  background: transparent;
-  border: none;
-  color: #B12704;
-  cursor: pointer;
-  font-size: 0.9rem;
-}
-
-.logout-btn {
-  display: inline-block;
-  margin-top: 2rem;
-  padding: 10px 20px;
-  background: #232F3E;
-  color: #fff;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-}
-
-.logout-btn:hover {
-  background: #131A22;
-}
-
-.add-product {
-  display: inline-block;
-  margin-top: 1.5rem;
-  background: #007185;
-  color: #fff;
-  padding: 10px 16px;
-  border-radius: 6px;
-  text-decoration: none;
-  font-weight: bold;
-}
-
-.add-product:hover {
-  background: #005f6b;
-}

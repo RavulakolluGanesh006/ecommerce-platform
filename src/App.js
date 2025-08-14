@@ -10,6 +10,7 @@ import AddProduct from './admin/AddProduct';
 import PublicProducts from './components/PublicProducts';
 import Cart from './components/Cart';
 import AdminOrders from './admin/AdminOrder';
+import MyOrders from './components/MyOrders';
 
 export default function App() {
   return (
@@ -23,6 +24,8 @@ export default function App() {
         <Route path="/products" element={<PublicProducts />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/admin-orders" element={<AdminRoute><AdminOrders /></AdminRoute>} />
+        <Route path="/my-orders" element={<MyOrders />} />
+
 
       </Routes>
     </Router>
