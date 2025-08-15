@@ -140,11 +140,11 @@ export default function Cart() {
         headers: { "Content-Type": "application/json" }
       });
       setOrderPlaced(true);
-      alert("✅ Order placed successfully! You will receive a confirmation email.");
+      alert("✅ Order placed successfully! ☕ Sit back and relax — we’ll call you soon 📞");
       navigate("/profile");
     } catch (err) {
       console.error(err);
-      alert("❌ Failed to place order");
+      alert("Connect to better network and try again");
     } finally {
       setIsPlacingOrder(false);
     }

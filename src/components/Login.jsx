@@ -24,6 +24,11 @@ export default function Login() {
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
+ 
+
+  const handleRegisterClick = () => {
+    navigate("/register");
+  };
 
   return (
     <div className="container">  {/* ✅ Add the container */}
@@ -42,6 +47,7 @@ export default function Login() {
         />
         <button type="submit">LOGIN</button>
       </form>
+      <button onClick={handleRegisterClick}>Register</button>
     </div>
   );
 }

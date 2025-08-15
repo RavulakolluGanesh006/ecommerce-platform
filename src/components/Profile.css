@@ -8,11 +8,12 @@
 
 /* Heading */
 .container h3 {
-  font-size: 1.8rem;
+  font-size: 2rem;
   margin-bottom: 20px;
   font-weight: bold;
   text-align: center;
-  color: #333;
+  color: #2c3e50;
+  position: relative;
 }
 
 /* Banner image */
@@ -47,60 +48,83 @@
 }
 
 /* Product image */
-.card-img-top {
-  width: 100%;
-  height: 260px; /* Increased height for better clarity */
-  object-fit: contain; /* Ensures full image is visible without cropping */
-  background-color: #f9f9f9; /* Light background to highlight transparent images */
-  padding: 10px; /* Space around the image */
-  transition: transform 0.3s ease-in-out;
+/* Responsive product grid */
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* ✅ auto adjusts */
+  gap: 20px;
+  padding: 0;
+  list-style: none;
 }
 
-.card:hover .card-img-top {
-  transform: scale(1.05); /* Slight zoom on hover */
+.card {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  overflow: hidden;
+  background: white;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  display: flex;
+  flex-direction: column;
 }
-/* Card body */
+
+.card-img-top {
+  width: 100%;
+  height: 200px;
+  object-fit: cover; /* ✅ keeps image proportional */
+}
+
 .card-body {
-  padding: 15px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
 }
 
 .card-title {
-  font-size: 1.2rem;
-  font-weight: 600;
-  margin-bottom: 8px;
-  color: #222;
+  font-size: 1.1rem;
+  font-weight: bold;
 }
 
 .card-price {
-  font-size: 1.1rem;
-  font-weight: bold;
-  color: #28a745;
-  margin-bottom: 10px;
+  font-size: 1rem;
+  color: green;
+  margin: 5px 0;
 }
-
 .card-text {
-  font-size: 0.9rem;
-  color: #666;
-  height: 45px;
-  overflow: hidden;
+  font-size: 14px;
+  color: #555;
+  margin: 10px 0;
+  line-height: 1.4;
+  max-height: 40px;       /* Limit height */
+  overflow: hidden;       /* Hide overflow */
+  text-overflow: ellipsis;/* Add "..." */
+  display: -webkit-box;
+  -webkit-line-clamp: 2;  /* Show only 2 lines */
+  line-clamp: 2;          /* Standard property for compatibility */
+  -webkit-box-orient: vertical;
 }
 
-/* Buttons */
 .btn-primary {
-  display: inline-block;
-  background-color: #28a745;
-  color: white;
+  padding: 8px;
+  background: #007bff;
   border: none;
-  padding: 8px 14px;
   border-radius: 6px;
-  font-size: 0.9rem;
+  color: white;
   cursor: pointer;
-  transition: background 0.2s ease;
+  margin-top: auto; /* ✅ pushes button to bottom */
 }
 
 .btn-primary:hover {
-  background-color: #218838;
+  background: #0056b3;
 }
+
+/* Mobile adjustments */
+@media (max-width: 600px) {
+  .card-img-top {
+    height: 150px;
+  }
+}
+
 
 .actions {
   display: flex;
@@ -255,3 +279,17 @@
   background: #0056b3;
 }
 
+/* #search */
+.search-bar {
+  width: 100%;
+  max-width: 350px;
+  padding: 8px 12px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 15px;
+}
+.search-bar:focus {
+  outline: none;
+  border-color: #007bff;
+}
