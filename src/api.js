@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const API = axios.create({
-  baseURL: 'https://ecommerce-platform-backend-nq1r.onrender.com/api',
+  baseURL: process.env.REACT_APP_API_URL ||'https://ecommerce-platform-backend-nq1r.onrender.com/api',
 });
 export const addToCart = async (productId) => {
   const token = localStorage.getItem("token");
