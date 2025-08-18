@@ -25,7 +25,14 @@ export default function Cart() {
   const [paymentMethod, setPaymentMethod] = useState("COD"); // COD or UPI
   const [transactionId, setTransactionId] = useState("");
   
-
+ useEffect(() => {
+  setTotal(
+    cartItems.reduce(
+      (sum, item) => sum + item.productId.price * item.quantity,
+      0
+    )
+  );
+}, [cartItems]);
   const handleScreenshotUpload = (e) => {
     const file = e.target.files[0];
     const reader = new FileReader();
@@ -42,6 +49,8 @@ export default function Cart() {
       navigate("/login");
       return;
     }
+   
+
 
     API.get("/cart")
       .then((res) => {
